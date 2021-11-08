@@ -19,6 +19,8 @@ spec:
             region: eu-west-2
 
 ---
+apiVersion: cert-manager.io/v1
+kind: Certificate
 metadata:
   name: istio-svcs-certs
   namespace: istio-system
