@@ -1,0 +1,31 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod-istio
+  namespace: cert-manager
+spec:
+  acme:
+    # The ACME server URL
+    server: https://acme-v02.api.letsencrypt.org/directory
+    # Email address used for ACME registration
+    email: Vivek.Nidhi@sa.com
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    # Enable the HTTP-01 challenge provider
+    solvers:
+      - dns01:
+          route53:
+            region: eu-west-2
+
+---
+metadata:
+  name: istio-svcs-certs
+  namespace: istio-system
+spec:
+  secretName: istio-svcs-certs
+  issuerRef:
+    name: letsencrypt-prod-istio
+    kind: ClusterIssuer
+  dnsNames:
+  - address-service.dev.env-cc.net
